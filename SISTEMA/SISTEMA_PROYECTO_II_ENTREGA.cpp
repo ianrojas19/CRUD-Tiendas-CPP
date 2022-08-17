@@ -26,7 +26,7 @@ struct producto{
 }producto[20];
 
 struct cliente{
-	char cedula[11];
+	char cedula[15];
 	char nombrecmp[45];
 	char direccion[100];
 	char telefono[25];
@@ -35,12 +35,13 @@ struct cliente{
 
 int main(){
 	//Variables
-	bool access,success,prodelim,error,errorpr;
-	int a, b, c, d, p, f, z, y, r, reps=0, repes=0, regreso, registro=0, intentos=0, prod=0, sistema, rec=0, salir, prodfound, atemps=0 ,desi,intentar, creg=0, copy=0;
+	bool access,success,prodelim,error,errorpr,vercli,verclient,elimcli;
+	int a, b, c, d, p, m, f, z, y, r, n, h, reps=0, repes=0, regreso, registro=0, intentos=0, prod=0, sistema, rec=0, salir, prodfound, atemps=0 ,desi,intentar, creg=0, copy=0;
 	char namepr[100],passpr[100],actu[100],buscprod[100],elimprod[100], elimcod[100], nomdelete[100]="\0", coddelete[100]="\0";
-	char opcion= ' ', des= ' ', intento= ' ', exit= ' ';
+	char opcion= ' ', des= ' ', intento= ' ', exit= ' ', buscli[15], busclient[15], buscliente[15], confirm[15];
 	char actuprodname[100], idu1[5]="us1", idu2[5]="us2", idu3[5]="us3", noap[11]="NO APLICA"; 
 	int actuprodgarantia, actuprodstock, actuprodprecio, client=0, repescl=0, sistema1;
+	char actuclidireccion[110], actuclitelefono[25], actucliemail[25];
 	
 	do{
 	//Bienvenida
@@ -409,7 +410,7 @@ int main(){
 			
 	// SI NO ENCUENTRA EL PRODUCTO
 			if(success==false){
-				cout<<"\n\n\n				         Producto no encontrado :(";
+				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n				         Producto no encontrado :(";
 				cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch();
 			}
 		
@@ -449,8 +450,8 @@ int main(){
 				}
 		
 				if(prodelim==false){
-					cout<<"\n\n\n				         Producto no encontrado :(";
-				cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch();
+					system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n				         Producto no encontrado :(";
+					cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch();
 				}
 			
 			fflush(stdin); sistema=1; system("CLS");
@@ -490,10 +491,12 @@ int main(){
 				system("CLS");
 						
 					switch(opcion){
+						
+		//CREAR CLIENTE
 						case '1':
-							cout<<"\n\n\t\t\t\t\t~ Crear Cliente ~";
-							cout<<"\n\nRegistro #"<<client+1<<"\t\t\t\t\t\t\t\tFormato de Inexistencia: n/a"<<endl;
-							cout<<"\n\nIngrese la cedula del Cliente: "; cin>>cliente[client].cedula;
+							cout<<"\n\n\t\t\t\t\t~ Crear Cliente ~";fflush(stdin);
+							cout<<"\n\nCliente #"<<client+1<<"\t\t\t\t\t\t\t\tFormato de Inexistencia: n/a"<<endl;
+							cout<<"\n\nIngrese la cedula del Cliente: "; cin>>cliente[client].cedula; strlwr(cliente[client].cedula);
 							cout<<"\n\nIngrese el nombre COMPLETO del Cliente: "; cin>>cliente[client].nombrecmp; fflush(stdin);
 							cout<<"\n\nIngrese la direccion de domicilo del Cliente: "; cin.getline(cliente[client].direccion,100);
 							cout<<"\n\nIngrese el numero telefonico del Cliente: "; cin>>cliente[client].telefono;
@@ -525,20 +528,133 @@ int main(){
 							
 						break;
 						
+		//ACTUALIZAR CLIENTE	
 						case '2':
+							fflush(stdin); verclient=false;
+							cout<<"\n\n\t\t\t\t\t~ Actualizar Cliente ~";
+							cout<<"\n\n\nIngrese la cedula del cliente que desea actualizar: ";cin>>busclient; strlwr(busclient);
+							
+							for(m=0;m<=19;m++){
+								if(strcmp(busclient,cliente[m].cedula)==false){
+		//COPIA LOS VALORES INICIALES PARA QUE REGRESE LOS VALORES SI FALLA LA ACTUALIZACION.							
+									strcpy(actuclidireccion,cliente[m].direccion);
+									strcpy(actuclitelefono,cliente[m].telefono);
+									strcpy(actucliemail,cliente[m].email);
+									verclient=true;	fflush(stdin);
+									
+									cout<<"\n\n\n\t\t\t\t\t -  Valores INICIALES del Cliente  -"; fflush(stdin);
+									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
+									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
+									cout<<"\n\nDireccion de domicilo del Cliente: "<<cliente[m].direccion;
+									cout<<"\n\nNumero telefonico del Cliente: "<<cliente[m].telefono;
+									cout<<"\n\nCorreo electronico del Cliente: "<<cliente[m].email;
+									
+									cout<<"\n\n\n\t\t\t\t\t -  Valores NUEVOS del Cliente  -"; fflush(stdin);
+									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
+									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
+									cout<<"\n\nNueva direccion de domicilo del Cliente: ";cin.getline(cliente[m].direccion,100);
+									cout<<"\nNuevo numero telefonico del Cliente: "; cin>>cliente[m].telefono;
+									cout<<"\nNuevo correo electronico del Cliente: "; cin>>cliente[m].email;
+									
+									if(strcmp(cliente[m].telefono,"n/a")==false){
+										strcpy(cliente[m].telefono,noap);
+									}
+									
+									if(strcmp(cliente[m].email,"n/a")==false){
+										strcpy(cliente[m].email,noap);
+									}
+									
+									if(strlen(cliente[m].direccion)!=0 && strlen(cliente[m].telefono)!=0 && strlen(cliente[m].email)!=0){
+										system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t  Cliente actualizado correctamente!";
+										Sleep(1500); sistema1=1; fflush(stdin); 
+									}
+									
+									else{
+										system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\t\t\t   Error en la actualizacion del cliente, intentelo mas tarde...";
+										strcpy(cliente[m].direccion,actuclidireccion);
+										strcpy(cliente[m].telefono,actuclitelefono);
+										strcpy(cliente[m].email,actucliemail);
+										Sleep(1500); sistema1=1; fflush(stdin); 
+									}
+									
+									break;
+								}
+							}
+							
+							if(verclient==false){
+								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n				         Cliente no encontrado :(";
+								cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch(); sistema1=1;
+							}
+							
+							system("CLS");
 							
 						break;
+						
 						case '3':
+							cout<<"\n\n\t\t\t\t\t~ Buscar Cliente ~";fflush(stdin); vercli=false;
+							cout<<"\n\n\nIngrese la cedula del cliente que desea buscar: ";cin>>buscli; strlwr(buscli);
+							
+							for(n=0;n<=19;n++){
+								if(strcmp(buscli,cliente[n].cedula)==false){
+									cout<<"\n\n\n\t\t\t\t\t -  Detalles del Cliente  -"; vercli=true;	
+									cout<<"\n\nCedula del Cliente: "<<cliente[n].cedula;
+									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[n].nombrecmp;
+									cout<<"\n\nDireccion de domicilo del Cliente: "<<cliente[n].direccion;
+									cout<<"\n\nNumero telefonico del Cliente: "<<cliente[n].telefono;
+									cout<<"\n\nCorreo electronico del Cliente: "<<cliente[n].email;
+									cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir"; getch(); sistema1=1; break; 
+								}
+							}
+							
+							if(vercli==false){
+								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n				         Cliente no encontrado :(";
+								cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch(); sistema1=1;
+							}
+							
+							system("CLS");
 							
 						break;
+						
 						case '4':
+							cout<<"\n\n\t\t\t\t\t~ Eliminar Cliente ~"; elimcli=false;
+							cout<<"\n\n\nIngrese la cedula del cliente que desea eliminar: ";cin>>buscliente; strlwr(buscliente);
+							
+							for(h=0;h<=19;h++){
+								if(strcmp(buscli,cliente[h].cedula)==false){
+									elimcli=true;	
+									cout<<"\n\nCliente encontrado, para eliminarlo del sistem, ingrese nuevamente la cedula del cliente para confirmar la accion...";
+									cout<<"\n\n\nConfirmacion: "; cin>>confirm; system("CLS");
+									
+									
+									if(strcmp(buscliente,confirm)==false){
+										strcpy(cliente[h].cedula,coddelete); client=client-1; 
+										cout<<"\n\n\n\n\n\n\n\n\n\t\t\t\tCliente eliminado correctamente, presione cualquier tecla para salir"; 
+										getch(); sistema1=1; break; 
+									}
+									
+									else{
+										cout<<"\n\n\n\n\n\n\n\n\n\t\t\t\tEl cliente no ha sido eliminado, intentelo mas tarde..."; 
+										Sleep(2000); sistema1=1; break; 
+									}
+								}
+							}
+							
+							if(elimcli==false){
+								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n				         Cliente no encontrado :(";
+								cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir..."; getch(); sistema1=1;
+							}
+							
+							system("CLS");
 							
 						break;
+						
 						case '5':
-							
+							cout<<"\n\n\n\n\n\n\n\n\t\t\t\t\tSaliendo de Gestion de Clientes...";
+							Sleep(2000);system("CLS"); sistema1=2; salir=1;
 						break;
+						
 						default:
-							system("CLS"); cout<<"\n\n\n\n\n\n\n\n\t\t     		Eleccion incorrecta, se le redirigira a la pantalla inicial."; 
+							cout<<"\n\n\n\n\n\n\n\n\t\t     		Eleccion incorrecta, se le redirigira a la pantalla inicial."; 
 							Sleep(2000);system("CLS"); cin.clear(); cin.ignore(100, '\n'); sistema1=1;
 						break;				
 						}
@@ -567,6 +683,7 @@ int main(){
 		break;
 			}
 		}
+		
 		while(salir==1);
 	
 		system("CLS");
