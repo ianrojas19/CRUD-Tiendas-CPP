@@ -1,14 +1,12 @@
-#include<iostream> 
 
-#include<locale.h> 
-
-#include<string.h> 
-
+#include<iostream>   //Bibliotecas Principales
+#include<string.h>
 #include<stdlib.h> 
 
-#include<conio.h> 
-
+#include<conio.h>    //Bibliotecas Secundarias
 #include<windows.h>
+
+#include<locale.h>   // Biblioteca de Idioma
 
 using namespace std;
 
@@ -38,19 +36,25 @@ struct cliente{
 struct factura{
 	int codFact;
 	float iva;
+	char codprod[25];
+	char nomclient[25];
+	char nomprod[100];
+	int precioun;
+	int cantprod;
 	int subtotal;
-}factura[1000];
+}factura[21];
 
 int main(){
 	//Variables
-	bool access,success,prodelim,error,errorpr,vercli,verclient,elimcli,foundfact;
-	int a, b, c, d, p, m, f, z, g, y, x, r, n, h, reps=0, repes=0, regreso, registro=0, intentos=0, prod=0, sistema, rec=0, salir, prodfound, atemps=0, intentar, creg=0, copy=0;
+	bool access,success,prodelim,error,errorpr,vercli,verclient,elimcli,foundfact,foundfactu,errorcant,usact,nofnd;
+	int a, b, c, d, p, m, f, z, g, y, x, r, n, h, u, prods, i=0, s, v, q, reps=0, repes=0, regreso, registro=0, intentos=0, prod=0, sistema, rec=0, salir, prodfound, atemps=0, intentar, creg=0, copy=0;
 	char namepr[100],passpr[100],actu[100],buscprod[100],elimprod[100], elimcod[100], nomdelete[100]="\0", coddelete[100]="\0";
 	char opcion= ' ', des= ' ', intento=' ', exit= ' ', buscli[15], busclient[15], buscliente[15], confirm[15];
 	char actuprodname[100], idu1[5]="us1", idu2[5]="us2", idu3[5]="us3", noap[11]="NO APLICA"; 
-	int actuprodgarantia, actuprodstock, actuprodprecio, client=0, repescl=0, sistema1, factu, subtotal, cantFact;
+	int actuprodgarantia, actuprodstock, actuprodprecio, client=0, repescl=0, sistema1, factu, total=0,activo=0,cantidad=0,repetis=0;
 	char actuclidireccion[110], actuclitelefono[25], actucliemail[25], desi[4];
-	char clientefact[25], prodFact[25];
+	char clientefact[25], prodFact[25], fecha[30], hora[30], contin[25], admin[25], modific[25];
+	float IVA, DESC, totalfact;
 	//Para que sirva la ñ porque el gringo diabetico que hizo c++ no le dio la perra gana añadirla.
 	setlocale(LC_CTYPE, "Spanish"); 
 	system("color f");  //Letras ak7
@@ -63,7 +67,8 @@ int main(){
 	//Opciones
 		cout<<"\n1. Registro"<<endl;			
 		cout<<"\n2. Iniciar Sesion"<<endl;
-		cout<<"\n3. Salir";			
+		cout<<"\n3. Modificar Usuarios";			
+		cout<<"\n\n4. Salir";			
 		cout<<"\n\nEleccion: "; cin>>opcion;
 	
 	//Eleccion
@@ -148,16 +153,19 @@ int main(){
 		case '2':
 		do{
 			system("CLS"); 
-			cout<<"\n\n\t\t\t\t     ~ INICIO DE SESION ~";fflush(stdin);
+			cout<<"\n\n\t\t\t\t     ~ INICIO DE SESION ~";fflush(stdin); usact=false;
 			cout<<"\n\nIngrese su nombre de usuario: "; cin.getline(namepr,100);
 			cout<<"\n\nIngrese su contraseña: "; cin>>passpr;
 				
 	//Validacion de usuario
-			if(strcmp(namepr,user[0].nick)==false && strcmp(passpr,user[0].password)==false || strcmp(namepr,user[1].nick)==false && strcmp(passpr,user[1].password)==false || strcmp(namepr,user[2].nick)==false && strcmp(passpr,user[2].password)==false){
-				system("CLS"); access=true; cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tAcceso concedido!"; Sleep(1500);	
+			for(u=0;u<=3;u++){
+				if(strcmp(namepr,user[u].nick)==false && strcmp(passpr,user[u].password)==false){
+					system("CLS"); access=true; cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tAcceso concedido!"; 
+					u=activo; usact=true; Sleep(1500); break;
+				}
 			}
 		
-			else{
+			if(usact==false){
 				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tEl nombre de usuario o la contraseña son incorrectos, intentelo de nuevo...";
 				Sleep(1200);system("CLS"); access=false; intentos=intentos+1;
 			}
@@ -286,6 +294,7 @@ int main(){
 						do{	
 							system("CLS"); fflush(stdin);
 							cout<<"\n\n\t\t\t\t     ~ Actualizar Producto ~                       ";
+						
 							cout<<"\n\n\nIngrese el codigo del producto que desea actualizar: "; cin>>actu; strlwr(actu);
 							prodfound=false;
 	
@@ -311,7 +320,7 @@ int main(){
 							cout<<"\n\nPrecio x Unidad (COLONES): "<<actuprodprecio;
     //ACTUALIZACION DE LOS DATOS
 							cout<<"\n\n\t\t\t\t\t  Valores NUEVOS";fflush(stdin);	
-							cout<<"\n\nCodigo del Producto: "<<actu;
+							cout<<"\n\nCodigo del Producto: "<<actu; fflush(stdin);
 							cout<<"\n\nNuevo Nombre del Producto: "; cin.getline(producto[c].name,100); strupr(producto[c].name);
 							cout<<"\nNueva Garantia del Producto (MESES): "; cin>>producto[c].garantia;
 
@@ -421,6 +430,7 @@ int main(){
 					cout<<"\n\nGarantia del Producto (MESES): "<<producto[z].garantia;
 					cout<<"\n\nCantidad de Existencias: "<<producto[z].stock;
 					cout<<"\n\nPrecio x Unidad (COLONES): "<<producto[z].precio;
+				
 					cout<<"\n\n\n\t\t\t  Presione cualquier tecla para salir..."; getch(); break;
 				}	
 			
@@ -443,6 +453,7 @@ int main(){
 		case '4':
 			fflush(stdin);
 			cout<<"\n\n\t\t\t\t     ~ Eliminar Producto ~"; prodelim=false;
+		
 			cout<<"\n\nIngrese el codigo del producto que desea eliminar: ";cin>>elimcod;
 
 	// SI ENCUENTRA EL PRODUCTO INDICADO EN LA VARIABLE ELIMCOD
@@ -524,6 +535,7 @@ int main(){
 								}
 							}	
 							
+	//Cuando el usuario ingrese el codigo de inexsistencia se va a sustituir por el mensaje de default "NO APLICA"
 							if(strcmp(cliente[client].telefono,"n/a")==false){
 								strcpy(cliente[client].telefono,noap);
 							}
@@ -531,12 +543,14 @@ int main(){
 							if(strcmp(cliente[client].email,"n/a")==false){
 								strcpy(cliente[client].email,noap);
 							}
-							
+
+	//Si cumple con todas las condiciones de creacion se creara el cliente
 							if(strlen(cliente[client].nombrecmp)!=0 && strlen(cliente[client].direccion)!=0 && repescl==1){
 								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente creado correctamente!";
 								Sleep(1500); client=client+1; system("CLS"); repescl=0; sistema1=1; fflush(stdin);
 							}
-							
+
+	//Si no los cumple (error)
 							else{
 								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tError en la creacion del cliente, intentelo mas tarde...";
 								Sleep(1500); system("CLS"); repescl=0; sistema1=1; fflush(stdin); cin.clear(); cin.ignore(100, '\n');
@@ -552,6 +566,7 @@ int main(){
 							
 							for(m=0;m<=19;m++){
 								if(strcmp(busclient,cliente[m].cedula)==false){
+									
 		//COPIA LOS VALORES INICIALES PARA QUE REGRESE LOS VALORES SI FALLA LA ACTUALIZACION.							
 									strcpy(actuclidireccion,cliente[m].direccion);
 									strcpy(actuclitelefono,cliente[m].telefono);
@@ -559,13 +574,16 @@ int main(){
 									verclient=true;	fflush(stdin);
 									
 									cout<<"\n\n\n--> Formato de Inexistencia: n/a";
+									
+		//Muestra los valores actuales del cliente (antes de cualquier error de actualizacion)
 									cout<<"\n\n\n\t\t\t\t\t -  Valores INICIALES del Cliente  -";
 									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
 									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
 									cout<<"\n\nDireccion de domicilo del Cliente: "<<cliente[m].direccion;
 									cout<<"\n\nNumero telefonico del Cliente: "<<cliente[m].telefono;
 									cout<<"\n\nCorreo electronico del Cliente: "<<cliente[m].email;
-									
+		
+		//Espacio de ingreso de los valores que actualizaremos
 									cout<<"\n\n\n\t\t\t\t\t -  Valores NUEVOS del Cliente  -"; fflush(stdin);
 									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
 									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
@@ -573,6 +591,7 @@ int main(){
 									cout<<"\nNuevo numero telefonico del Cliente: "; cin>>cliente[m].telefono;
 									cout<<"\nNuevo correo electronico del Cliente: "; cin>>cliente[m].email;
 									
+	//Como en la creacion del cliente, si el cliente no posee una caracteristica NULL, se ingresa el codigo de inexistencia
 									if(strcmp(cliente[m].telefono,"n/a")==false){
 										strcpy(cliente[m].telefono,noap);
 									}
@@ -580,12 +599,14 @@ int main(){
 									if(strcmp(cliente[m].email,"n/a")==false){
 										strcpy(cliente[m].email,noap);
 									}
-									
+	
+	//Si cumple con todos los requisitos para actualizarse
 									if(strlen(cliente[m].direccion)!=0 && strlen(cliente[m].telefono)!=0 && strlen(cliente[m].email)!=0){
 										system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente actualizado correctamente!";
 										Sleep(1500); sistema1=1; fflush(stdin); 
 									}
-									
+	
+	//Si no las cumple (error)
 									else{
 										system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tError en la actualizacion del cliente, intentelo mas tarde...";
 										strcpy(cliente[m].direccion,actuclidireccion);
@@ -597,7 +618,8 @@ int main(){
 									break;
 								}
 							}
-							
+	
+	//Si no existe(no ha sido creado) se le indica en el mensaje a continuacion
 							if(verclient==false){
 								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\t\tCliente no encontrado :(";
 								cout<<"\n\n\n\t\tPresione cualquier tecla para salir..."; getch(); sistema1=1;
@@ -610,7 +632,8 @@ int main(){
 						case '3':
 							cout<<"\n\n\t\t\t\t     ~ Buscar Cliente ~";fflush(stdin); vercli=false;
 							cout<<"\n\n\nIngrese la cedula del cliente que desea buscar: ";cin>>buscli; strlwr(buscli);
-							
+	
+		//Busca al cliente segun el codigo que hayamos ingresado
 							for(n=0;n<=19;n++){
 								if(strcmp(buscli,cliente[n].cedula)==false){
 									cout<<"\n\n\n\t\t\t\t\t -  Detalles del Cliente  -"; vercli=true;	
@@ -622,7 +645,8 @@ int main(){
 									cout<<"\n\n\n\t\t\t\t    Presione cualquier tecla para salir"; getch(); sistema1=1; break; 
 								}
 							}
-							
+	
+	//Si no lo encuentra(no ha sido creado)
 							if(vercli==false){
 								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\t\tCliente no encontrado :(";
 								cout<<"\n\n\n\t\tPresione cualquier tecla para salir..."; getch(); sistema1=1;
@@ -634,28 +658,32 @@ int main(){
 						
 						case '4':
 							cout<<"\n\n\t\t\t\t     ~ Eliminar Cliente ~"; elimcli=false;
+						
 							cout<<"\n\n\nIngrese la cedula del cliente que desea eliminar: ";cin>>buscliente; strlwr(buscliente);
 							
+	//Busca al cliente en la estructura
 							for(h=0;h<=19;h++){
 								if(strcmp(buscli,cliente[h].cedula)==false){
 									elimcli=true;	
 									cout<<"\n\nCliente encontrado, para eliminarlo del sistem, ingrese nuevamente la cedula del cliente para confirmar la accion...";
 									cout<<"\n\n\nConfirmacion: "; cin>>confirm; system("CLS");
 									
-									
+	//Si confirma la creacion del usuario	
 									if(strcmp(buscliente,confirm)==false){
 										strcpy(cliente[h].cedula,coddelete); client=client-1; system("CLS");
 										cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente eliminado correctamente, presione cualquier tecla para salir...";	getch(); 
 										sistema1=1; break; 
 									}
-									
+	
+	//Si introduce un codigo de cliente diferente al que se desea eliminar-
 									else{
 										cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tEl cliente no ha sido eliminado, intentelo mas tarde..."; 
 										Sleep(2000); sistema1=1; break; 
 									}
 								}
 							}
-							
+	
+	//Si no lo encuentra(no ha sido creado)
 							if(elimcli==false){
 								system("CLS"); cout<<"\n\n\n\n\n\n\n\n\t\tCliente no encontrado :(";
 								cout<<"\n\n\n\t\tPresione cualquier tecla para salir..."; getch(); sistema1=1;
@@ -665,6 +693,7 @@ int main(){
 							
 						break;
 						
+	//Salida del CRUD de Clientes
 						case '5':
 							cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tSaliendo de Gestion de Clientes...";
 							Sleep(2000);system("CLS"); sistema1=2; salir=1;
@@ -684,39 +713,107 @@ int main(){
 	
 	//////////////////////////////////////////////////////////////////// Generar FACTURA /////////////////////////////////////////////////////////////////////////
 		case '3':
-			cout<<"\n\nBIENVENIDO AL SISTEMA DE FACTURACIÓN DE 'WINSTON TECHNOLOGIES'";fflush(stdin);
-			cout<<"\n\nPor favor proceda a tocar una tecla y seguir las instrucciones."; getch(); system("cls");
-
-			cout<<"\n\nSe van a presentar el ingreso de los productos que seran comprados, por lo cual debera utilizar los siguientes comandos: ";
-			cout<<"\n\n1. Adjuntar un producto nuevo.";
-			cout<<"\n\n2. Finalizar compra e imprimir factura.";
-			cout<<"\n\nFinalmente, proceda a ingresar la informacion que se le solicita a continuacion.";
-			cout<<"\n\nPulse cualquier tecla para continuar..."; getch(); system("CLS"); factu=1;                    
+			cout<<"\n\n\t   BIENVENIDO AL SISTEMA DE FACTURACIÓN DE 'WINSTON TECHNOLOGIES'.";fflush(stdin);
 			
-			cout<<"\n\nIngrese el Codigo de Cliente: "; cin>>clientefact;
+			cout<<"\n\n\t   Por favor proceda a tocar una tecla y seguir las instrucciones."; getch(); system("CLS"); factu=1;                    
 			
-			while(factu==1){
+	//Pregunta la cedula del Cliente al que le estamos generando la compra
+			cout<<"\n\nIngrese Cedula de Cliente: "; cin>>clientefact;
 				
-				cout<<"\n\n---> Opciones: 1. Adjuntar Producto / 2. Finalizar compra";
-			
-				foundfact=false;
+				foundfactu=false;
 				
-				cout<<"\n\nIngrese el Codigo del producto: "; cin>>prodFact; fflush(stdin);
-				
-				
-				for(x=0;x<=19;x++){
-					if(strcmp(prodFact,producto[x].cod)==false){
-						cout<<"\n\n---------------------"; foundfact=true;
-						cout<<"\n\nCodigo del producto: "<<producto[x].cod;
-						cout<<"\n\nNombre del producto: "<<producto[x].name;
-						cout<<"\n\nPrecio x Unidad: "<<producto[x].precio;
-						cout<<"\n\nCantidad de compra: "; cin>>cantFact;
-						cout<<"\n---------------------";
-						subtotal= producto[x].precio*cantFact;
-						cout<<"\n\nOpcion: "; cin>>factu; break;
+	//Busca al cliente en su respectiva estructura
+				for(s=0;s<=19;s++){
+					if(strcmp(clientefact,cliente[s].cedula)==false){
+						foundfactu=true; system("CLS");
+						cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente encontrado!";
+						Sleep(2000); system("CLS"); break;
 					}
 				}
 				
+	//Si no lo encuentra(no ha sido creado)
+				if(foundfactu==false){
+					system("CLS");cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente inexistente, no se podra generar la factura..."; 
+					Sleep(2000); salir=1; system("CLS"); break; 
+				}
+				
+	//Empieza el ingreso de los productos que va a comprar el cliente
+				while(factu==1){
+	
+	//Le da las opciones al ususario para que adjunte otro producto o finalize la compra e imprimir la factura
+				cout<<"\n\n---> Opciones: 1. Adjuntar Producto / 2. Finalizar compra";
+			
+				foundfact=false;
+	
+	//Pide al usuario el codigo del producto
+				cout<<"\n\nIngrese el Codigo del producto: "; cin>>prodFact; fflush(stdin);
+				
+	//Busca al producto en su respectiva estructura			
+				for(x=0;x<=19;x++){
+					if(strcmp(prodFact,producto[x].cod)==false){
+						do{
+	
+	//Copia los valores de la estructura que pertenece el producto para insertarlos en la estructura FACTURA
+							strcpy(factura[i].codprod,producto[x].cod);
+							strcpy(factura[i].nomprod,producto[x].name);
+							factura[i].precioun=producto[x].precio;
+							fflush(stdin);
+	
+	//Le muestra los detalles del producto y le pregunta la cantidad del producto que desea comprar
+							cout<<"\n\n==========================="; foundfact=true;
+						
+							cout<<"\n\nCodigo del producto: "<<factura[i].codprod;
+							
+							cout<<"\n\nNombre del producto: "<<factura[i].nomprod;
+						
+							cout<<"\n\nPrecio x Unidad: "<<producto[x].precio;
+						
+							cout<<"\n\nCantidad de compra: "; cin>>cantidad;
+						
+							cout<<"\n==========================="; 
+	
+	//Si mete algun caracter que no sea un numero o una cantidad mayor a la cantidad de existencias, falla.
+							if(cin.fail() || producto[x].stock-cantidad<0){
+								cin.clear();cin.ignore(100, '\n'); errorcant=true; system("CLS");
+								cout<<"\n\n\n\n\n\n\n\t\tError de valores detectado...";fflush(stdin);
+								cout<<"\n\n\t\tRazones: Datos incorrectos / Cantidad insuficiente de existencias del producto.";
+								cout<<"\n\n\t\tDesea volver a ingresarlo al sistema? (S)i / (N)o, ingresar otro producto: "; cin>>contin; 
+								system("CLS");
+	
+	//Si quiere ingresar otra cantidad
+								if(strcmp(contin,"S")==false || strcmp(contin,"s")==false){
+									system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tReintentara la compra del producto."; 
+									Sleep(2000); system("CLS"); errorcant=true;
+								}
+								
+	//Si quiere ingresar otro producto
+								else{
+									system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tNo se reintentara la compra del producto."; 
+									Sleep(2000); system("CLS"); errorcant=false; factu=1;
+								}
+							}
+	
+	//Si no falla
+							else{
+								cout<<"\n\nProducto ingresado correctamente!";
+							
+								errorcant=false; factura[i].cantprod=cantidad;
+							
+								total=total+(producto[x].precio*cantidad); i=i+1;
+							
+								cout<<total; getch();
+							
+								cout<<"\n\nOpcion: "; cin>>factu; 
+							}
+						}
+						
+						while(errorcant==true);
+						
+						break;
+					}
+				}
+				
+	////Si no existe el producto(no ha sido creado)
 				if(foundfact==false){
 					cout<<"\n\nProducto inexistente :("; 
 					cout<<"\n\nOpcion: "; cin>>factu; fflush(stdin);
@@ -725,12 +822,69 @@ int main(){
 				system("CLS");
 				
 			}
-						
-			//Factura generada con los datos introducidos
+	//Hace las operaciones para generar los valores de IVA y Descuento respectivamente
+			IVA=total*0.12;
 			
- 
-
-			salir=1;
+			DESC=total*0.04;
+			
+			totalfact=total+IVA-DESC;
+			
+	//Asigna el numero de factura que estamos generando (empieza de 0 y aumentara mientras vayamos haciendo facturas)
+			factura[1].codFact=factura[1].codFact+1; system("CLS"); fflush(stdin);
+				
+	//Factura generada con los datos introducidos
+			cout<<"\n\n\t\t\t\t              ~ Factura~";fflush(stdin);
+			
+			cout<<"\n\n\t\t=======================================================================";
+		
+			cout<<"\n\n\t\t\tWINSTON TECHNOLOGIES";
+		
+			cout<<"\n\n\t\t\t2552 - 1064";
+		
+			cout<<"\n\n\t\t=======================================================================";
+		
+			cout<<"\n\n\t\t\tId Fact: "<<factura[1].codFact<<"\t\t\t\tFecha: "; cin>>fecha; fflush(stdin);
+ 		
+		 	cout<<"\n\n\t\t\tCajero: "<<user[activo].nick<<"\t\t\t\tHora: "; cin>>hora;
+ 		
+		 	cout<<"\n\n\t\t\tNombre del Cliente: "<<clientefact;
+ 		
+		 	cout<<"\n\n\t\t=======================================================================";
+ 			
+			 for(prods=0;prods<=i-1;prods++){
+ 				cout<<"\n\n\t\t\tCodigo del producto: "<<factura[prods].codprod;
+			
+				cout<<"\n\n\t\t\tNombre del producto: "<<factura[prods].nomprod;
+			
+				cout<<"\n\n\t\t\tPrecio x Unidad: "<<factura[prods].precioun;
+			
+				cout<<"\n\n\t\t\tCantidad de compra: "<<factura[prods].cantprod;
+				
+				for(q=0;q<=20;q++){
+					if(strcmp(factura[prods].codprod,producto[q].cod)==false){
+						producto[q].stock=producto[q].stock-factura[prods].cantprod;
+						fflush(stdin);
+					}
+				}
+			}
+			cout<<"\n\n\t\t=======================================================================";
+			
+			cout<<"\n\n\t\t\tSubtotal:                                   "<<total;
+			
+			cout<<"\n\n\t\t\tIVA:                                        "<<IVA;
+			
+			cout<<"\n\n\t\t\tDescuento:                                  "<<DESC;
+			
+			cout<<"\n\n\t\t\tTOTAL:                                      "<<totalfact;
+			
+			cout<<"\n\n\t\t=======================================================================";
+			
+			cout<<"\n\n\t\t\tFactura conforme lo establecido por la resolucion No DGT-R-033"; 
+			
+			cout<<"\n\n\n\t\t\tPresione cualquier tecla para salir..."; getch(); system("CLS");
+			
+			fflush(stdin); salir=1;
+			
 		break;
 	///////////////////////////////////////////////////////////////////// FINAL DE GENERAR FACTURA //////////////////////////////////////////////////////////////////
 	
@@ -759,8 +913,69 @@ int main(){
 		
 ////////////////////////////////////////////////////// FIN DE GESTION DE C R U D EMPRESARIAL /////////////////////////////////////////////////////////////////////
 					
-	//Salir del SISTEMA
+	
 		case '3':
+			system("CLS"); cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~"; nofnd=false;
+		
+			cout<<"\n\nPara poder modificar a los usuarios, ingrese la contraseña de administrador...";
+			cout<<"\n\nContraseña: "; cin>>admin;
+			
+	//Compara la contraseña que ingresa el usuario con la contraseña de administrador
+			if(strcmp(admin,"191004")==false){
+				
+	//Si la acierta se le da acesso al modificar a los usuarios
+				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tAcceso concedido!"; Sleep(2000); system("CLS");
+			
+				cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~";
+				cout<<"\n\nIngrese el Codigo del usuario que desea modificar: ";cin>>modific;
+				
+	//Recorre la estructura user para encontrar el codigo de usuario que ingreso el usuario para modificar
+				for(int md=0;md<=20;md++){
+					if(strcmp(user[md].id, modific)==false){
+						cout<<"\n\nCodigo de Usuario: "<<user[md].id; nofnd=true;
+					
+						cout<<"\n\nIngrese el nuevo nombre de usuario (minimo 4 caracteres): "; cin>>user[md].nick;
+					
+						cout<<"\n\nIngrese la nueva contraseña (minimo 4 caracteres): "; cin>>user[md].password;
+	
+	//Recorre el valor de NICK en la estructura USER para probar si ya existe el nombre de usuario que ingresorá al sistema
+						for(int cc=0;cc<=3;cc++){
+							if(strcmp(user[md].nick,user[cc].nick)==false){
+								repetis=repetis+1;
+							}
+						}	
+						
+	//Si cumple con todas las condiciones de modificacion
+						if(repetis==1 && strlen(user[md].password)>=4 && strlen(user[md].nick)>=4){
+							system("CLS");	cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tModificacion completa... Bienvenid@ "<<user[md].nick<<"!"; 
+							repetis=0; Sleep(1500); system("CLS"); break;
+						}
+	
+	//Si no las cumple, fallará	
+						else{
+							system("CLS");cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tModificacion de usuario invalida, intentelo nuevamente..."; 
+							Sleep(1500); repetis=repetis=0; md=md-1;
+						}
+					}
+				}
+				
+				if(nofnd==false){
+					system("CLS"); cout<<"\n\n\n\n\n\n\n\n\t\tUsuario no encontrado :(";
+					cout<<"\n\n\n\t\tPresione cualquier tecla para salir..."; getch(); system("CLS");
+				}
+			}
+	
+	//Si no acierta la contraseña de administrador
+			else{
+				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tAcceso denegado :("; Sleep(2000); system("CLS");
+			}
+		
+			regreso=1;
+			
+		break;
+		
+	//Salir del SISTEMA
+		case '4':
 			regreso=2;
 		break;
 						
@@ -773,7 +988,7 @@ int main(){
 
 	// CUANDO FINALIZE EL SISTEMA POR COMPLETO Y YA NO SE OCUPEN REALIZAR MAS PROCESOS
 		
-		while(regreso==1);
+		while(regreso==1);-
 	
 		system("CLS");
 
