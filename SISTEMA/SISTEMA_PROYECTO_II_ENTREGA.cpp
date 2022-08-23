@@ -14,11 +14,11 @@ struct user{
 }user[3];
          
 struct producto{
-	char cod[4];
-	char name[100];
 	int precio;
 	int garantia;
 	int stock;
+	char cod[4];
+	char name[100];
 }producto[20];
 
 struct cliente{
@@ -31,12 +31,12 @@ struct cliente{
 
 struct factura{
 	int codFact;
-	char codprod[25];
-	char nomclient[25];
-	char nomprod[100];
 	int precioun;
 	int cantprod;
 	int subtotal;
+	char codprod[25];
+	char nomclient[25];
+	char nomprod[100];
 }factura[21];
 
 int main(){
@@ -710,12 +710,12 @@ int main(){
 	
 	//////////////////////////////////////////////////////////////////// Generar FACTURA /////////////////////////////////////////////////////////////////////////
 		case '3':
-			cout<<"\n\n\t       BIENVENIDO AL SISTEMA DE FACTURACIÓN DE 'WINSTON TECHNOLOGIES'.";fflush(stdin);
+			cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tBIENVENIDO AL SISTEMA DE FACTURACIÓN DE 'WINSTON TECHNOLOGIES'.";fflush(stdin);
 			
-			cout<<"\n\n\t       Por favor proceda a tocar una tecla y seguir las instrucciones."; getch(); system("CLS"); factu=1;                    
+			cout<<"\n\n\t\tPor favor proceda a tocar una tecla y seguir las instrucciones."; getch(); system("CLS"); factu=1;                    
 			
 	//Pregunta la cedula del Cliente al que le estamos generando la compra
-			system("CLS"); cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~";
+			system("CLS"); cout<<"\n\n\t\t\t\t     ~ Generar Factura ~";
 			
 			cout<<"\n\nIngrese Cedula de Cliente: "; cin>>clientefact;
 				
@@ -740,7 +740,7 @@ int main(){
 				while(factu==1){
 	
 	//Le da las opciones al ususario para que adjunte otro producto o finalize la compra e imprimir la factura
-				system("CLS"); cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~";
+				system("CLS"); cout<<"\n\n\t\t\t\t     ~ Generar Factura ~";
 				cout<<"\n\n---> Opciones: 1. Adjuntar Producto / 2. Finalizar compra";
 			
 				foundfact=false;
@@ -852,13 +852,13 @@ int main(){
 		 	cout<<"\n\n\t\t=======================================================================";
  			
 			 for(prods=0;prods<=i-1;prods++){
- 				cout<<"\n\n\t\t\tCodigo del producto: "<<factura[prods].codprod;
+ 				cout<<"\n\n\n\t\t\tCodigo del producto: "<<factura[prods].codprod;
 			
 				cout<<"\n\n\t\t\tNombre del producto: "<<factura[prods].nomprod;
 			
 				cout<<"\n\n\t\t\tPrecio x Unidad: "<<factura[prods].precioun<<" colones";
 			
-				cout<<"\n\n\t\t\tCantidad de compra: "<<factura[prods].cantprod;
+				cout<<"\n\n\t\t\tCantidad de compra: "<<factura[prods].cantprod<<endl<<endl;
 				
 				for(q=0;q<=20;q++){
 					if(strcmp(factura[prods].codprod,producto[q].cod)==false){
@@ -869,7 +869,7 @@ int main(){
 			}
 			cout<<"\n\n\t\t=======================================================================";
 			
-			cout<<"\n\n\t\t\tSubtotal:                                   "<<total<<" colones";
+			cout<<"\n\n\t\t\tSubtotal:                                   "<<total<<" colones"; 
 			
 			cout<<"\n\n\t\t\tIVA:                                        "<<IVA<<" colones";
 			
@@ -883,7 +883,7 @@ int main(){
 			
 			cout<<"\n\n\n\t\t\tPresione cualquier tecla para salir..."; getch(); 
 			
-			system("CLS"); fflush(stdin); salir=1;
+			system("CLS"); fflush(stdin); i=0; salir=1; total=0; IVA=0; DESC=0; totalfact=0;
 			
 		break;
 	///////////////////////////////////////////////////////////////////// FINAL DE GENERAR FACTURA //////////////////////////////////////////////////////////////////
