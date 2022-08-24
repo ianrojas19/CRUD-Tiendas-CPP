@@ -74,8 +74,7 @@ int main(){
 		case '1':
 			if(registro>=3){
 				system("CLS");
-				cout<<"\n\n\t\t\t\t     ~ REGISTRO ~";	
-				cout<<"\n\n\t\t\tCantidad maxima de registros alcanzada, se le redirigira a la pagina de inicio.";
+				cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCantidad maxima de registros alcanzada, se le redirigira a la pagina de inicio.";
 				Sleep(2000); system("CLS");	regreso=1; break;  
 			}
 		
@@ -217,8 +216,8 @@ int main(){
 					case '1':
 	//MENSAJE SI EL INVENTARIO ESTA LLENO 			
 						if(prod>=20){
-							system("CLS"); cout<<"\n\n\t\t\t\t     ~ Crear Producto ~                       ";
-							cout<< "\n\n\t\t\tInventario lleno, se le regresara al menu inicial."; 
+							system("CLS"); 
+							cout<< "\n\n\n\n\n\n\n\n\n\n\n\t\tInventario lleno, elimine algun producto para acceder a esta opcion."; 
 							Sleep(2000); system("CLS"); sistema=1; break;
 						}
 							
@@ -518,13 +517,19 @@ int main(){
 						
 		//CREAR CLIENTE
 						case '1':
+							if(client>=20){
+								system("CLS"); 
+								cout<< "\n\n\n\n\n\n\n\n\n\n\n\t\tCartera de clientes llena, elimine algun cliente para acceder a esta opcion."; 
+								Sleep(2000); system("CLS"); sistema1=1; break;
+							}
+								
 							cout<<"\n\n\t\t\t\t     ~ Crear Cliente ~";fflush(stdin);
 							cout<<"\n\nCliente #"<<client+1<<"\t\t\t\t\t\t\t\tFormato de Inexistencia: n/a"<<endl;
 							cout<<"\n\nIngrese la cedula del Cliente: "; cin>>cliente[client].cedula; strlwr(cliente[client].cedula);fflush(stdin);
 							cout<<"\n\nIngrese el nombre COMPLETO del Cliente: "; cin.getline(cliente[client].nombrecmp,45); fflush(stdin); strupr(cliente[client].nombrecmp);
 							cout<<"\n\nIngrese la direccion de domicilo del Cliente: "; cin.getline(cliente[client].direccion,100); strupr(cliente[client].direccion);
-							cout<<"\n\nIngrese el numero telefonico del Cliente: "; cin>>cliente[client].telefono; 
-							cout<<"\n\nIngrese el correo electronico del Cliente: "; cin>>cliente[client].email;
+							cout<<"\n\n*Ingrese el numero telefonico del Cliente: "; cin>>cliente[client].telefono; 
+							cout<<"\n\n*Ingrese el correo electronico del Cliente: "; cin>>cliente[client].email;
 							
 							for(r=0;r<=19;r++){
 								if(strcmp(cliente[client].cedula,cliente[r].cedula)==false){	
@@ -577,16 +582,16 @@ int main(){
 									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
 									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
 									cout<<"\n\nDireccion de domicilo del Cliente: "<<cliente[m].direccion;
-									cout<<"\n\nNumero telefonico del Cliente: "<<cliente[m].telefono;
-									cout<<"\n\nCorreo electronico del Cliente: "<<cliente[m].email;
+									cout<<"\n\n*Numero telefonico del Cliente: "<<cliente[m].telefono;
+									cout<<"\n\n*Correo electronico del Cliente: "<<cliente[m].email;
 		
 		//Espacio de ingreso de los valores que actualizaremos
 									cout<<"\n\n\n\t\t\t\t\t -  Valores NUEVOS del Cliente  -"; fflush(stdin);
 									cout<<"\n\nCedula del Cliente: "<<cliente[m].cedula;
 									cout<<"\n\nNombre COMPLETO del Cliente: "<<cliente[m].nombrecmp;
 									cout<<"\n\nNueva direccion de domicilo del Cliente: ";cin.getline(cliente[m].direccion,100); strupr(cliente[client].direccion);
-									cout<<"\nNuevo numero telefonico del Cliente: "; cin>>cliente[m].telefono;
-									cout<<"\nNuevo correo electronico del Cliente: "; cin>>cliente[m].email;
+									cout<<"\n*Nuevo numero telefonico del Cliente: "; cin>>cliente[m].telefono;
+									cout<<"\n*Nuevo correo electronico del Cliente: "; cin>>cliente[m].email;
 									
 	//Como en la creacion del cliente, si el cliente no posee una caracteristica NULL, se ingresa el codigo de inexistencia
 									if(strcmp(cliente[m].telefono,"n/a")==false){
@@ -726,7 +731,7 @@ int main(){
 					if(strcmp(clientefact,cliente[s].cedula)==false){
 						foundfactu=true; system("CLS");
 						cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCliente encontrado!";
-						strcpy(nombrecliente,cliente[s].nombrecmp); Sleep(2000); system("CLS"); break;
+						strcpy(nombrecliente,cliente[s].nombrecmp); strcpy(direccioncliente,cliente[s].direccion); Sleep(2000); system("CLS"); break;
 					}
 				}
 				
@@ -740,7 +745,7 @@ int main(){
 				while(factu==1){
 	
 	//Le da las opciones al ususario para que adjunte otro producto o finalize la compra e imprimir la factura
-				system("CLS"); cout<<"\n\n\t\t\t\t     ~ Generar Factura ~";
+				system("CLS"); cout<<"\n\n\t\t\t\t     ~ Compra de Productos ~";
 				cout<<"\n\n---> Opciones: 1. Adjuntar Producto / 2. Finalizar compra";
 			
 				foundfact=false;
@@ -796,9 +801,7 @@ int main(){
 	//Si no falla
 							else{
 								cout<<"\n\nProducto ingresado correctamente!";
-							
 								errorcant=false; factura[i].cantprod=cantidad;
-							
 								total=total+(producto[x].precio*cantidad); i=i+1;
 							
 								cout<<"\n\nOpcion: "; cin>>factu; 
@@ -835,9 +838,9 @@ int main(){
 			
 			cout<<"\n\n\t\t=======================================================================";
 		
-			cout<<"\n\n\t\t\tWINSTON TECHNOLOGIES";
+			cout<<"\n\n\t\t\t\t                WINSTON TECHNOLOGIES";
 		
-			cout<<"\n\n\t\t\t2552 - 1064";
+			cout<<"\n\n\t\t\t\t                    2552 - 1064";
 		
 			cout<<"\n\n\t\t=======================================================================";
 		
@@ -847,7 +850,9 @@ int main(){
  		
 		 	cout<<"\n\n\t\t\tCedula del Cliente: "<<clientefact;
 			 
-			cout<<"\n\n\t\t\tNombre del Cliente: "<<nombrecliente;
+			cout<<"\n\n\n\t\t\tNombre del Cliente: "<<nombrecliente; 
+			
+			cout<<"\n\n\n\t\t\Direccion del Cliente: "<<direccioncliente;
  		
 		 	cout<<"\n\n\t\t=======================================================================";
  			
@@ -898,14 +903,13 @@ int main(){
 			system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tEleccion incorrecta, se le redirigira a la pantalla inicial."; 
 			Sleep(2000);system("CLS"); cin.clear(); cin.ignore(100, '\n'); salir=1;
 		break;
+		
 			}
 		}
 		
 		while(salir==1);
 	
-		system("CLS");
-	
-		cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCierre de sesion exitoso..."; Sleep(2000); system("CLS");
+		system("CLS");cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tCierre de sesion exitoso..."; Sleep(2000); system("CLS");
 	
 		regreso=1;
 	
@@ -916,7 +920,6 @@ int main(){
 	
 		case '3':
 			system("CLS"); cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~"; nofnd=false;
-		
 			cout<<"\n\nPara poder modificar a los usuarios, ingrese la contraseña de administrador...";
 			cout<<"\n\nContraseña: "; cin>>admin;
 			
@@ -925,7 +928,6 @@ int main(){
 				
 	//Si la acierta se le da acesso al modificar a los usuarios
 				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tAcceso concedido!"; Sleep(2000); system("CLS");
-			
 				cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~";
 				cout<<"\n\nIngrese el Codigo del usuario que desea modificar: ";cin>>modific;
 				
@@ -933,9 +935,7 @@ int main(){
 				for(int md=0;md<=20;md++){
 					if(strcmp(user[md].id, modific)==false){
 						cout<<"\n\nCodigo de Usuario: "<<user[md].id; nofnd=true;
-					
 						cout<<"\n\n\nIngrese el nuevo nombre de usuario (minimo 4 caracteres): "; cin>>user[md].nick;
-					
 						cout<<"\n\nIngrese la nueva contraseña (minimo 4 caracteres): "; cin>>user[md].password;
 	
 	//Recorre el valor de NICK en la estructura USER para probar si ya existe el nombre de usuario que ingresorá al sistema
