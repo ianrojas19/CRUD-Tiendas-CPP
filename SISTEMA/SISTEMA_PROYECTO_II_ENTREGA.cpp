@@ -48,7 +48,7 @@ int main(){
 	char actuclidireccion[110], actuclitelefono[25], actucliemail[25], desi[4];
 	char actuprodname[100], idu1[5]="us1", idu2[5]="us2", idu3[5]="us3", noap[11]="NO APLICA"; 
 	char clientefact[25], prodFact[25], fecha[30], hora[30], contin[25], admin[25], modific[25], confirm[15];
-	char namepr[100], passpr[100], actu[100], buscprod[100], elimprod[100], elimcod[100], nomdelete[100]="\0";
+	char namepr[100], passpr[100], actu[100], buscprod[100], elimprod[100], elimcod[100], nomdelete[100]="\0", direccioncliente[100];
 	char opcion= ' ', des= ' ', intento=' ', exit= ' ', buscli[15], busclient[15], buscliente[15], coddelete[10]="\0", nombrecliente[45];
 	float IVA, DESC, totalfact;
 	
@@ -852,7 +852,7 @@ int main(){
 			 
 			cout<<"\n\n\n\t\t\tNombre del Cliente: "<<nombrecliente; 
 			
-			cout<<"\n\n\n\t\t\Direccion del Cliente: "<<direccioncliente;
+			cout<<"\n\n\n\t\t\tDireccion del Cliente: "<<direccioncliente;
  		
 		 	cout<<"\n\n\t\t=======================================================================";
  			
