@@ -1,7 +1,7 @@
 #include<iostream>   //Bibliotecas Principales
 #include<string.h>
-#include<stdlib.h> 
-#include<conio.h>    //Bibliotecas Secundarias
+#include<stdlib.h>
+#include<conio.h>     //Bibliotecas Secundarias
 #include<windows.h>
 #include<locale.h>   // Biblioteca de Idioma
 using namespace std;
@@ -49,7 +49,7 @@ int main(){
 	char actuprodname[100], idu1[5]="us1", idu2[5]="us2", idu3[5]="us3", noap[11]="NO APLICA"; 
 	char clientefact[25], prodFact[25], fecha[30], hora[30], contin[25], admin[25], modific[25], confirm[15];
 	char namepr[100], passpr[100], actu[100], buscprod[100], elimprod[100], elimcod[100], nomdelete[100]="\0", direccioncliente[100];
-	char opcion= ' ', des= ' ', intento=' ', exit= ' ', buscli[15], busclient[15], buscliente[15], coddelete[10]="\0", nombrecliente[45];
+	char opcion= ' ', des= ' ', intento=' ', exit= ' ', buscli[15], busclient[15], buscliente[15], coddelete[10]="\0", nombrecliente[45], salida[25];
 	float IVA, DESC, totalfact;
 	
 	//Para que sirva la ñ porque el gringo diabetico que hizo c++ no le dio la perra gana añadirla.
@@ -825,9 +825,7 @@ int main(){
 			}
 	//Hace las operaciones para generar los valores de IVA y Descuento respectivamente
 			IVA=total*0.12;
-			
 			DESC=total*0.04;
-			
 			totalfact=total+IVA-DESC;
 			
 	//Asigna el numero de factura que estamos generando (empieza de 0 y aumentara mientras vayamos haciendo facturas)
@@ -917,7 +915,6 @@ int main(){
 		
 ////////////////////////////////////////////////////// FIN DE GESTION DE C R U D EMPRESARIAL /////////////////////////////////////////////////////////////////////
 					
-	
 		case '3':
 			system("CLS"); cout<<"\n\n\t\t\t\t     ~ Modificar Usuarios ~"; nofnd=false;
 			cout<<"\n\nPara poder modificar a los usuarios, ingrese la contraseña de administrador...";
@@ -976,7 +973,20 @@ int main(){
 		
 	//Salir del SISTEMA
 		case '4':
-			regreso=2;
+			system("CLS"); cout<<"\n\n\n\n\n\n\n\t\tEstá seguro que desea salir del sistema?";
+			cout<<"\n\n\t\tEsta accion eliminara cualquier objeto creado anteriormente!";
+			cout<<"\n\n\t\t(S)I / (N)o: ";cin>>salida;
+			
+			if(strcmp(salida,"S")==false || strcmp(salida,"s")==false){
+				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tConfirmacion de salida exitosa..."; Sleep(2000); system("CLS");
+				regreso=2;
+			}
+			
+			else{
+				system("CLS"); cout<<"\n\n\n\n\n\n\n\n\n\n\n\t\tConfirmacion de salida cancelada, regresando al menu principal..."; Sleep(2000); system("CLS");
+				regreso=1;	
+			}
+			
 		break;
 						
 		default:
